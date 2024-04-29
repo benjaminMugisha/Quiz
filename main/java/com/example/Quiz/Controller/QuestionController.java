@@ -2,11 +2,9 @@ package com.example.Quiz.Controller;
 
 import com.example.Quiz.Model.Questions;
 import com.example.Quiz.Service.QuestionService;
+import com.example.Quiz.dao.QuestionDB;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,10 +20,15 @@ public class QuestionController {
         return qs.getQues();
     }
 
-    //add a question to the db
+    //search by a variable say difficulty level
+    @GetMapping("diff/{difficultyLevel}")
+    public List<Questions> findByDifficultyLevel(@PathVariable String difficultyLevel) {
+        return qs.getDifficulty(difficultyLevel);
+    }
+
     @PostMapping("/add")
-    public void addQuestions(Questions q) {
-        qs.addQuestion(q);
+    public String addQuestion(@RequestBody Questions q){
+        return qs.addQuestion(q);
     }
 }
 

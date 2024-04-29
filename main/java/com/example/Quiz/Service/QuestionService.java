@@ -19,8 +19,15 @@ public class QuestionService {
     }
 
     //to add a question. use.saveAll() to add a list
-    public void addQuestion(Questions q){
-        db.save(q);
+    public String addQuestion(Questions q){
+       db.save(q);
+       return "success";
     }
+
+    public List<Questions> getDifficulty(String difficulty) {
+        // Perform a case-insensitive search by converting both the input and the database value to lowercase
+        return db.findByDifficultyLevelIgnoreCase(difficulty.toLowerCase());
+    }
+
 }
 
