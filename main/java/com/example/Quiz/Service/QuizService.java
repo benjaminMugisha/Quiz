@@ -3,6 +3,7 @@ package com.example.Quiz.Service;
 import com.example.Quiz.Model.QuestionWrapper;
 import com.example.Quiz.Model.Questions;
 import com.example.Quiz.Model.Quiz;
+import com.example.Quiz.Model.Response;
 import com.example.Quiz.dao.QuestionDB;
 import com.example.Quiz.dao.Quizdao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,22 @@ public class QuizService {
     QuestionDB qb;
 
     @Autowired
-    Quizdao qz;
+    private Quizdao qz;
+
+    public ResponseEntity<Integer> calculateAnswer(Integer id, List<Response> response) {
+       Quiz quiz = qz.findById(id).get(); // another way to say optional
+        List<Questions> questions = quiz.getQuestions();
+        // now we compare the values in the response with the questions from the quiz
+        int right = 0;
+        int i = 0;
+        for(Response response1 : response ){
+            if(response1.getResponse().equals(questions.get(i).getRightAnswer())){
+                right ++;}
+            i++;
+        }
+        return new ResponseEntity<>(right, HttpStatus.OK);
+    }
+
 
     // this method is for creating a quiz:
     public ResponseEntity<String> createQ(int numQ, String title, String difficultyLevel) {
