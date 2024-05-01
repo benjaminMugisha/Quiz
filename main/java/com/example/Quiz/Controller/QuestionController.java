@@ -23,6 +23,5 @@ public class QuestionController {
     public ResponseEntity<String> addQuestion(@RequestBody Questions q){
        return qs.addQuestion(q);
    }
-
 }
 
